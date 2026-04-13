@@ -1,0 +1,19 @@
+.menu-desplegable {
+    display: none;
+  }
+  
+  .men {
+    font-size: 20px;
+    user-select: none;
+    cursor: pointer;
+  }
+  
+  /* 🔽 oculto por defecto */
+  .lista {
+    display: none;
+  }
+  
+  /* 🔽 cuando el checkbox está activado */
+  #menu-desplegable:checked ~ .lista {
+    display: block;
+  }
