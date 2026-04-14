@@ -1,19 +1,137 @@
-.menu-desplegable {
-    display: none;
-  }
+
+   /* Ocultar checkbox */
+#menu-desplegable {
+  display: none;
+}
+  
   
   .men {
-    font-size: 20px;
-    user-select: none;
-    cursor: pointer;
+    order: -1;
+    font-size: 30px;
   }
   
   /* 🔽 oculto por defecto */
   .lista {
     display: none;
   }
+  /* PANEL LATERAL */
+.lista {
+  position: fixed;
+  top: 0;
+  left: -250px; /* oculto fuera de pantalla */
+  width: 250px;
+  height: 100%;
+  background: linear-gradient(145deg, #1e1e2f, #2a2a40);
+  color: #fff;
+  padding: 20px;
+  transition: left 0.3s ease;
+  z-index: 1000;
+}
+/* Links */
+.lista a {
+  display: block;
+  margin: 10px 0;
+  text-decoration:none;
+  color: rgb(12, 209, 117);
+  text-decoration-thickness: 1px;
+  text-align: left;
+  letter-spacing: 1px;
+  font-size: 16px;
+}
+/* Cuando se activa */
+#menu-desplegable:checked ~ .lista {
+  left: 0;
+}
   
-  /* 🔽 cuando el checkbox está activado */
+  /* cuando el checkbox está activado */
   #menu-desplegable:checked ~ .lista {
     display: block;
   }
+  .lista h2{
+    text-align: left;
+  }
+  .cerrar {
+    display: block;
+    font-size: 20px;
+    cursor: pointer;
+    display: block;
+    margin-bottom: 15px;}
+  .header{
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #046366;
+    color: white;
+    text-align: center;
+  }
+  .buscador{
+    height: 20px;
+    width: 100%;
+    display: grid;
+    align-items: center;
+    justify-content: left;
+    margin:5px;
+  }
+  .icon{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 20px;
+  }
+  .carrito{
+    font-size: 28px;
+    text-decoration: none;
+    background:black;
+    border-radius: 5px;
+
+  }
+  .categorias{
+    background:#F5F7FA;
+    padding: 40px 20px;
+    text-align: center; 
+  }
+  .categorias h2{
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 28px;
+    }
+    .grid-categorias{
+      display: flex;
+      justify-content: center;
+      gap:20px;
+      flex-wrap:wrap;
+
+    }
+    .categoria {
+      background: white;
+      padding: 20px 30px;
+      border-radius: 15px;
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+.grid-productos {
+  display:grid;
+  grid-template-columns: repeat(2,1fr);
+  gap:15px;
+  padding: 10px;
+  background-color:#F5F7FA;
+}
+.card{
+  background:#ffffff;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transition: all 0.3s ease;
+
+
+}
+.card img{
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+
