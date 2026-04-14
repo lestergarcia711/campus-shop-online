@@ -4,31 +4,98 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>catalogo</title>
+    <link rel="stylesheet" href="css/componentes.css">
 </head>
+
 <body>
     <header class="header">
 
-          <div class="grid-categorias">
+        <!-- Checkbox oculto -->
+        <input type="checkbox" id="buscador-desplegable">
       
-            <!-- botón abrir -->
-            <label for="buscador-desplegable" class="men">🔍</label>
-            <input type="text" id="buscador-desplegable">
+        <!-- Icono buscar -->
+        <label for="buscador-desplegable" class=" icon buscar">🔍</label>
       
-            <!-- buscador -->
-            <div class="lista">
+        <!-- Título -->
+        <h1 class="titulo">Catálogo</h1>
       
-              <!-- botón cerrar -->
-              <label for="menu-desplegable" class="cerrar">x</label>
+        <!-- Carrito -->
+        <a href="carrito.html" class=" icon carrito">🛒</a>
       
-            </div>
-      
-          </div>
-        
-      
-        <h1>CampusShop</h1>
-        <a href="carrito.html" class="carrito">🛒</a>
+        <!-- Buscador overlay -->
+        <div class="buscador">
+          <input type="text" placeholder="Buscar..." />
+          <label for="buscador-desplegable" class="icon cerrar">✖</label>
+        </div>
       
       </header>
+      <section class="filtros">
+        <button class="active">Talla</button>
+        <button class="active">color</button>
+        <button class="active">precio</button>
+      </section>
+
+      <section class="novedades">
+        <div class="grid-productos">
+
+            <div class="card">
+              <img src="img/camisa-polo.jpeg" alt="Camisa polo">
+              <h3>Camisa Polo</h3>
+              <p>Q45.00</p>
+              <button class="cart">🛒</button>
+            </div>
+        
+            <div class="card">
+              <img src="img/jacket.jpeg" alt="Chaqueta">
+                <h3>Chaqueta de Cuero</h3>
+                <p>Q120.00</p>
+                <button class="cart">🛒</button>
+            </div>
+
+            <div class="card">
+                <img src="img/jeans.jpeg" alt="jeans">
+                <h3>Jeans Clásicos</h3>
+                <p>Q80.00</p>
+                <button class="cart">🛒</button>
+            </div>
+
+            <div class="card">
+                <img src="img/polo.jpeg" alt="polo">
+                <h3>Polo Básico</h3>
+                <p>Q35.00</p>
+                <button class="cart">🛒</button>
+            </div>
+
+            <div class="card">
+                <img src="img/shorts.jpeg" alt="shorts">
+                <h3>Shorts Deportivos</h3>
+                <p>Q25.00</p>
+                <button class="cart">🛒</button>
+            </div>
+
+            <div class="card">
+                <img src="img/t-shirt.jpeg" alt="t-shirt">
+                <h3>T-shirt Estampada</h3>
+                <p>Q30.00</p>
+                <button class="cart">🛒</button>
+            </div>
+
+            <div class="card">
+                <img src="img/Zapato clasico.jpeg" alt="clasico">
+                <h3>Zapato Clásico</h3>
+                <p>Q150.00</p>
+                <button class="cart">🛒</button>
+            </div>
+
+            <div class="card">
+                <img src="img/tennis.jpeg" alt="tennis">
+                <h3>Tennis Deportivos</h3>
+                <p>Q90.00</p>
+                <button class="cart">🛒</button>
+            </div>
+        </div>
+
+      </section>
     
 </body>
 </html>
