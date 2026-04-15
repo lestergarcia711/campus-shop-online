@@ -98,7 +98,7 @@
     }
     .grid-categorias{
       display: flex;
-      justify-content: center;
+      justify-content: space-around;
       gap:20px;
       flex-wrap:wrap;
 
@@ -114,9 +114,9 @@
       transition: transform 0.2s, box-shadow 0.2s;
     }
 .grid-productos {
-  display:grid;
-  grid-template-columns: repeat(2,1fr);
-  gap:15px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap:10px;
   padding: 10px;
   background-color:#F5F7FA;
 }
@@ -124,7 +124,7 @@
   background:#ffffff;
   border-radius: 15px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 12px rgba(53, 40, 40, 0.08);
   transition: all 0.3s ease;
 
 
