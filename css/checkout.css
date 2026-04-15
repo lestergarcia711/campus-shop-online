@@ -1,0 +1,5 @@
+.form-style input{
+    display: flex;
+    flex-direction:row ;
+    margin-bottom: 10px;
+}

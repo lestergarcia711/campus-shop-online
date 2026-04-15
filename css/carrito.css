@@ -103,6 +103,7 @@
   }
   .compra{
     width: 100%;
+    height: auto;
     background: #2f4f4f;
     color: white;
     border: none;
@@ -120,14 +121,27 @@
    color: rgb(31, 27, 24);
 
   }
-  .checout{
+  .checkout{
+    display: grid;
     width: 100%;
-    background: #2f4f4f;
-    color: white;
-    border: none;
+    background: #2cb922;
+    color: black;
+    border: 1 px solid;
     padding: 12px;
     border-radius: 10px;
     margin-top: 20px;
     cursor: pointer;
     font-size: 15px;
+    text-align: center;
+    text-decoration: none;
+  
+    transition: all 0.3s ease;
+
   }
+  .checkout:hover{
+    background-color: green;
+    transform: scale(1.1);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+
+  }
+ 
