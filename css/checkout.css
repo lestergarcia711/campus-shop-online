@@ -1,5 +1,78 @@
+
+body{
+    background: linear-gradient(135deg, #74ebd5, #acb6e5);
+}
+.header {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    padding: 10px 10px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    position: sticky;
+    top: 0;
+}
+
+.icon.volver {
+    justify-self: start;
+    font-size: 20px;
+}
+
+.titulo {
+    justify-self: center;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 20px;
+
+}
+
+
 .form-style input{
     display: flex;
     flex-direction:row ;
     margin-bottom: 10px;
+}
+/*estilo para la seccion de pago*/
+.cards {
+    display:inline-flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+.pago .card {
+    background: white;
+    padding: 25px 20px;
+    font-size: 15px; 
+    border-radius: 12px;
+    border: 1px solid;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    cursor: cursor;
+    transition: 0.3s;
+}
+.pago .card:hover {
+    transform: translateY(-6px);
+    background: #8ce98f;
+    color: rgb(35, 4, 4);
+
+
+}
+/*estilo para la seccion de pagar*/
+.pay {
+    display:grid;
+    margin: 50px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    font-size: 18px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+    transition: all 0.3s ease;
+}
+.pay:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    filter: brightness(1.1);
 }
