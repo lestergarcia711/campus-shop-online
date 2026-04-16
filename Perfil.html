@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>perfil</title>
+    <style>
+        body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+}
+
+header {
+    text-align: center;
+    padding: 10px;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90vh;
+}
+
+.card {
+    background: white;
+    width: 280px;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.profile {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.avatar {
+    width: 80px;
+    height: 80px;
+    background: #e0c3a3;
+    border-radius: 50%;
+    margin: 0 auto 10px;
+    border: 3px solid #b7e4c7;
+}
+
+.profile h2 {
+    margin: 5px 0;
+    font-size: 18px;
+}
+
+.profile p {
+    font-size: 12px;
+    color: gray;
+}
+
+.options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.option {
+    background: #f1f1f1;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.option:hover {
+    background: #e0e0e0;
+}
+
+.logout {
+    color: red;
+}
+/*estilos para la barra de navegacion*/
+.navbar {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+     background: linear-gradient(135deg, #667eea, #764ba2);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-top: 1px solid #ddd;
+    padding: 8px 0;
+}
+
+.nav-item {
+    text-decoration: none;
+    color: white;
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.nav-item span {
+    font-size: 18px;
+}
+
+.nav-item.active {
+    color: black;
+    font-weight: bold;
+}
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>Perfil</h1>
+    </header>
+    <main class="container">
+    <div class="card">
+
+        <div class="profile">
+            <div class="avatar"></div>
+            <h2>Josue Villagran</h2>
+            <p>josue.villagran@gmail.com</p>
+        </div>
+
+        <div class="options">
+            <div class="option">Mis Pedidos</div>
+            <div class="option">Direcciones</div>
+            <div class="option">Configuración</div>
+            <div class="option logout">Cerrar Sesión</div>
+        </div>
+
+    </div>
+</main>
+<nav>
+    <nav class="navbar">
+    <a href="index.html" class="nav-item ">
+        <span>🏠</span>
+        <p>Inicio</p>
+    </a>
+    <a href="catalogo.html" class="nav-item">
+        <span>📦</span>
+        <p>Catálogo</p>
+    </a>
+    <a href="carrito.html" class="nav-item">
+        <span>🛒</span>
+        <p>Carrito</p>
+    </a>
+    <a href="perfil.html" class="nav-item active">
+        <span>👤</span>
+        <p>Perfil</p>
+    </a>
+    <a href="Historial.html" class="nav-item">
+        <span>🕒</span>
+        <p>Historial</p>
+    </a>
+</nav>
+</nav>
+    
+</body>
+</html>

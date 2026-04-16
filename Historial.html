@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial</title>
+    <STYle>
+body{
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+}
+ .header{
+    text-align: center;
+    padding: 10px;
+
+        }
+.titulo{
+    font-size: 24px;
+    color: #333;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+ .container {
+    padding: 20px;
+}
+
+.card {
+    background: #f5f5f5;
+    padding: 15px;
+    border-radius: 15px;
+}
+
+.order {
+    background: white;
+    border-radius: 12px;
+    padding: 12px;
+    margin-top: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.order-info h3 {
+    margin: 0;
+    font-size: 14px;
+}
+
+.order-info p {
+    margin: 3px 0;
+    font-size: 12px;
+    color: gray;
+}
+
+.price {
+    font-weight: bold;
+}
+
+button {
+    margin-top: 5px;
+    padding: 5px 10px;
+    border: none;
+    background: #ddd;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* Estados */
+.status {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+    margin-top: 5px;
+}
+
+.entregado {
+    background: #d4f8d4;
+    color: green;
+}
+
+.camino {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.cancelado {
+    background: #f8d7da;
+    color: red;
+}
+/*estilos para la barra de navegacion*/
+.navbar {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-top: 1px solid #ddd;
+    padding: 8px 0;
+}
+
+.nav-item {
+    text-decoration: none;
+    color: white;
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.nav-item span {
+    font-size: 18px;
+}
+
+.nav-item.active {
+    color: black;
+    font-weight: bold;
+}
+    </STYle>
+</head>
+<body>
+    <header class="header">
+        <h1 class="titulo">Historial de Compras</h1>
+    </header>
+    <main class="container">
+        <div class="card">
+
+
+    <!-- Pedido 1 -->
+    <div class="order">
+        <div class="order-info">
+            <h3>Orden COD12345</h3>
+            <p>15 Oct, 2023</p>
+            <span class="status entregado">Entregado</span>
+        </div>
+        <div class="order-right">
+            <p class="price">Q125.50</p>
+            <button>Ver detalle</button>
+        </div>
+    </div>
+
+    <!-- Pedido 2 -->
+    <div class="order">
+        <div class="order-info">
+            <h3>Orden COD12344</h3>
+            <p>12 Oct, 2023</p>
+            <span class="status camino">En camino</span>
+        </div>
+        <div class="order-right">
+            <p class="price">Q89.99</p>
+            <button>Ver detalle</button>
+        </div>
+    </div>
+
+    <!-- Pedido 3 -->
+    <div class="order">
+        <div class="order-info">
+            <h3>Orden COD12343</h3>
+            <p>05 Oct, 2023</p>
+            <span class="status cancelado">Cancelado</span>
+        </div>
+        <div class="order-right">
+            <p class="price">Q210.00</p>
+            <button>Ver detalle</button>
+        </div>
+    </div>
+
+</div>
+
+    </main>
+<nav>
+    <nav class="navbar">
+    <a href="index.html" class="nav-item ">
+        <span>🏠</span>
+        <p>Inicio</p>
+    </a>
+    <a href="catalogo.html" class="nav-item">
+        <span>📦</span>
+        <p>Catálogo</p>
+    </a>
+    <a href="carrito.html" class="nav-item">
+        <span>🛒</span>
+        <p>Carrito</p>
+    </a>
+    <a href="perfil.html" class=" nav-item ">
+        <span>👤</span>
+        <p>perfil</p>
+    </a>
+     <a href="Historial.html" class=" nav-item active">
+        <span>🕒</span>
+        <p>Historial</p>
+    </a>
+</nav>
+</nav>
+    
+</body>
+</html>
