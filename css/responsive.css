@@ -1,0 +1,95 @@
+/* Adaptación a tablet, escritorio y pantallas grandes. Mobile-first: la base ya es la vista móvil. */
+
+html { -webkit-text-size-adjust: 100%; }
+img { max-width: 100%; }
+button, a.btn, .opcion, .chip { touch-action: manipulation; }
+
+.navbar { padding-bottom: calc(8px + env(safe-area-inset-bottom, 0px)); }
+
+/* Teléfonos pequeños */
+@media (max-width: 360px) {
+  .grid-productos, .comparacion { gap: 8px; padding: 8px; }
+  .card h3 { font-size: 14px; }
+  .toast { font-size: 13px; }
+}
+
+/* Tablet vertical */
+@media (min-width: 600px) {
+  .grid-productos, .comparacion { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; padding: 16px; }
+  .grid-productos .card > a > img, .comparacion .card > img { height: 220px; }
+  .filtros { gap: 20px; }
+  .eleccion, .registro, .container { max-width: 720px; margin-inline: auto; }
+  #lineas.eleccion { max-width: none; width: 100%; margin: 0; padding: 0; }
+  .toasts { bottom: 24px; align-items: flex-end; padding: 0 24px; }
+  .navbar { justify-content: center; gap: 40px; }
+}
+
+/* Escritorio */
+@media (min-width: 900px) {
+  .header { padding-inline: max(24px, calc((100% - 1200px) / 2)); }
+
+  .categorias, .novedades, .filtros, .categorias-chips, .barra-resultados, .comparar-barra, .resumen-carrito {
+    padding-inline: max(24px, calc((100% - 1200px) / 2));
+  }
+  .grid-productos, .comparacion {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    max-width: 1200px;
+    margin-inline: auto;
+    background: transparent;
+  }
+  .novedades { background: var(--fondo); }
+  .grid-productos .card > a > img, .comparacion .card > img { height: 260px; }
+  .card:hover { transform: translateY(-4px); box-shadow: 0 10px 24px rgba(4, 99, 102, 0.18); }
+  .categoria { padding: 20px 48px; }
+
+  /* El menú lateral y la barra inferior se adaptan al ancho */
+  .lista { width: 300px; left: -300px; }
+  .navbar { gap: 72px; font-size: 14px; }
+  .navbar .nav-item span { font-size: 20px; }
+
+  /* Detalle: imagen a la izquierda, información a la derecha */
+  .detalle-pagina .novedades { max-width: 1000px; margin-inline: auto; padding: 24px; background: transparent; }
+  .detalle-pagina .grid-productos { grid-template-columns: 1fr; padding: 0; }
+  .detalle-pagina #detalle .card {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: 32px;
+    align-content: start;
+    padding: 24px;
+  }
+  .detalle-pagina #detalle .card > img { grid-column: 1; grid-row: 1 / span 12; height: auto; max-height: 560px; object-fit: cover; }
+  .detalle-pagina #detalle .card > *:not(img) { grid-column: 2; }
+  .detalle-pagina #detalle .estado-vacio { grid-column: 1 / -1; }
+
+  /* Carrito: lista a la izquierda, resumen fijo a la derecha */
+  main.eleccion { max-width: 1000px; display: grid; grid-template-columns: 2fr 1fr; gap: 24px; align-items: start; }
+  main.eleccion .compra { position: sticky; top: 84px; margin-top: 15px; }
+
+  .registro { max-width: 720px; }
+  .container { max-width: 800px; }
+  body.perfil .container { max-width: none; }
+}
+
+/* Pantallas grandes */
+@media (min-width: 1400px) {
+  .grid-productos, .comparacion { grid-template-columns: repeat(5, minmax(0, 1fr)); max-width: 1400px; }
+  .categorias, .novedades, .filtros, .categorias-chips, .barra-resultados, .comparar-barra {
+    padding-inline: max(24px, calc((100% - 1400px) / 2));
+  }
+}
+
+/* Dispositivos táctiles: sin efectos de hover que se quedan pegados */
+@media (hover: none) {
+  .card:hover, .categoria:hover { transform: none; }
+}
+
+/* Usuarios que prefieren menos movimiento */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
+}
+
+/* Teléfono en horizontal */
+@media (max-height: 480px) and (orientation: landscape) {
+  .toasts { bottom: 8px; }
+  .dialogo { max-height: 92vh; overflow-y: auto; }
+}
