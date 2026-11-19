@@ -7,12 +7,12 @@ class HomePage extends BasePage {
   #bindSearch() {
     const form = Dom.$('#form-busqueda');
     const goTo = (q) => {
-      window.location.href = q ? `catalogo.html?q=${encodeURIComponent(q)}` : 'catalogo.html';
+      window.location.href = q ? `pages/catalogo.html?q=${encodeURIComponent(q)}` : 'pages/catalogo.html';
     };
     const box = new SearchBox(this.app, Dom.$('#busqueda'), {
       host: form,
       onSubmit: goTo,
-      onCategory: (id) => { window.location.href = `catalogo.html?categoria=${id}`; },
+      onCategory: (id) => { window.location.href = `pages/catalogo.html?categoria=${id}`; },
     });
     box.mount();
     form.addEventListener('submit', (event) => {

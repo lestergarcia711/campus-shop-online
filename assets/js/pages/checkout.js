@@ -94,7 +94,7 @@ class CheckoutPage extends BasePage {
 
     this.#placing = true;
     this.app.cart.clear();
-    window.location.href = `Historial.html?nuevo=${encodeURIComponent(result.order.id)}`;
+    window.location.href = `historial.html?nuevo=${encodeURIComponent(result.order.id)}`;
   }
 }
 

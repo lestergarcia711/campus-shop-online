@@ -1,3 +1,6 @@
+// Las imágenes se resuelven respecto a este script, para funcionar desde index.html y pages/.
+const IMAGES_BASE = new URL('../img/', document.currentScript.src).href;
+
 class Product {
   #data;
 
@@ -14,7 +17,7 @@ class Product {
   get nombre() { return this.#data.nombre; }
   get precio() { return this.#data.precio; }
   get categoria() { return this.#data.categoria; }
-  get imagen() { return this.#data.imagen; }
+  get imagen() { return IMAGES_BASE + this.#data.imagen; }
   get colores() { return this.#data.colores; }
   get tallas() { return this.#data.tallas; }
   get descripcion() { return this.#data.descripcion; }
@@ -173,49 +176,49 @@ class ProductRepository {
   static #seed() {
     return [
       {
-        id: 1, nombre: 'Camisa Polo', precio: 45, categoria: 'camisetas', imagen: 'img/camisa-polo.jpeg',
+        id: 1, nombre: 'Camisa Polo', precio: 45, categoria: 'camisetas', imagen: 'camisa-polo.jpeg',
         colores: ['Negro'], tallas: ['S', 'M', 'L', 'XL'],
         descripcion: 'Polo negro con mangas blancas, ribetes en cuello y puños y un bordado pequeño en el pecho.',
         caracteristicas: ['Cuello con botones', 'Mangas contrastantes en blanco', 'Corte recto'],
       },
       {
-        id: 2, nombre: 'Chaqueta de Cuero', precio: 120, categoria: 'abrigos', imagen: 'img/jacket.jpeg',
+        id: 2, nombre: 'Chaqueta de Cuero', precio: 120, categoria: 'abrigos', imagen: 'jacket.jpeg',
         colores: ['Negro'], tallas: ['S', 'M', 'L', 'XL'],
         descripcion: 'Chaqueta negra de cuero con cuello mao, cierre frontal y bolsillos con cremallera.',
         caracteristicas: ['Cuello mao con broche', 'Cuatro bolsillos con cierre', 'Cierre frontal metálico'],
       },
       {
-        id: 3, nombre: 'Jeans Clásicos', precio: 80, categoria: 'pantalones', imagen: 'img/jeans.jpeg',
+        id: 3, nombre: 'Jeans Clásicos', precio: 80, categoria: 'pantalones', imagen: 'jeans.jpeg',
         colores: ['Azul', 'Negro'], tallas: ['26', '28', '30', '32', '34'],
         descripcion: 'Jeans de corte ajustado en tela elástica. Disponibles en azul claro, medio, oscuro y negro.',
         caracteristicas: ['Cinco bolsillos', 'Corte ajustado', 'Parche de cuero en la cintura'],
       },
       {
-        id: 4, nombre: 'Polo Básico', precio: 35, categoria: 'camisetas', imagen: 'img/polo.jpeg',
+        id: 4, nombre: 'Polo Básico', precio: 35, categoria: 'camisetas', imagen: 'polo.jpeg',
         colores: ['Crema'], tallas: ['S', 'M', 'L'],
         descripcion: 'Polo color crema con cuello de cierre corto y bordado dorado en el pecho y los puños.',
         caracteristicas: ['Cuello con cierre', 'Bordado en pecho y puños', 'Manga corta'],
       },
       {
-        id: 5, nombre: 'Shorts Deportivos', precio: 25, categoria: 'pantalones', imagen: 'img/shorts.jpeg',
+        id: 5, nombre: 'Shorts Deportivos', precio: 25, categoria: 'pantalones', imagen: 'shorts.jpeg',
         colores: ['Beige', 'Azul', 'Rojo', 'Verde', 'Negro'], tallas: ['30', '32', '34'],
         descripcion: 'Bermudas de tela ligera con bolsillos laterales y cierre con botón, en varios colores.',
         caracteristicas: ['Bolsillos laterales', 'Cierre con botón', 'Largo a la rodilla'],
       },
       {
-        id: 6, nombre: 'T-shirt Estampada', precio: 30, categoria: 'camisetas', imagen: 'img/t-shirt.jpeg',
+        id: 6, nombre: 'T-shirt Estampada', precio: 30, categoria: 'camisetas', imagen: 't-shirt.jpeg',
         colores: ['Negro'], tallas: ['S', 'M', 'L'],
         descripcion: 'Camiseta negra con estampado dorado al frente, paneles de malla en los hombros y ribetes en el cuello.',
         caracteristicas: ['Estampado dorado', 'Malla en hombros', 'Cuello polo'],
       },
       {
-        id: 7, nombre: 'Zapato Clásico', precio: 150, categoria: 'calzado', imagen: 'img/Zapato clasico.jpeg',
+        id: 7, nombre: 'Zapato Clásico', precio: 150, categoria: 'calzado', imagen: 'zapato-clasico.jpeg',
         colores: ['Negro'], tallas: ['8', '9', '10', '11', '12'],
         descripcion: 'Zapato negro sin cordones, con laterales elásticos y suela blanca.',
         caracteristicas: ['Sin cordones', 'Laterales elásticos', 'Suela blanca'],
       },
       {
-        id: 8, nombre: 'Tennis Deportivos', precio: 90, categoria: 'calzado', imagen: 'img/tennis.jpeg',
+        id: 8, nombre: 'Tennis Deportivos', precio: 90, categoria: 'calzado', imagen: 'tennis.jpeg',
         colores: ['Azul'], tallas: ['34', '35', '36', '37', '38', '39', '40'],
         descripcion: 'Tenis de lona azul marino con agujetas color café y suela blanca.',
         caracteristicas: ['Lona azul marino', 'Agujetas con ojales metálicos', 'Suela blanca'],
