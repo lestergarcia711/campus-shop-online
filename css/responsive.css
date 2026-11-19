@@ -28,7 +28,7 @@ button, a.btn, .opcion, .chip { touch-action: manipulation; }
 @media (min-width: 900px) {
   .header { padding-inline: max(24px, calc((100% - 1200px) / 2)); }
 
-  .categorias, .novedades, .filtros, .categorias-chips, .barra-resultados, .comparar-barra, .resumen-carrito {
+  .categorias, .novedades, .filtros, .barra-resultados, .comparar-barra, .resumen-carrito {
     padding-inline: max(24px, calc((100% - 1200px) / 2));
   }
   .grid-productos, .comparacion {
@@ -71,9 +71,14 @@ button, a.btn, .opcion, .chip { touch-action: manipulation; }
 }
 
 /* Pantallas grandes */
+@media (min-width: 900px) {
+  .categorias-chips { max-width: 1200px; margin-inline: auto; padding: 16px 24px 0; }
+}
+
 @media (min-width: 1400px) {
+  .categorias-chips { max-width: 1400px; }
   .grid-productos, .comparacion { grid-template-columns: repeat(5, minmax(0, 1fr)); max-width: 1400px; }
-  .categorias, .novedades, .filtros, .categorias-chips, .barra-resultados, .comparar-barra {
+  .categorias, .novedades, .filtros, .barra-resultados, .comparar-barra {
     padding-inline: max(24px, calc((100% - 1400px) / 2));
   }
 }

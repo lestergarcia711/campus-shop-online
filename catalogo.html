@@ -31,20 +31,47 @@
 
     <div class="categorias-chips" id="categorias" role="group" aria-label="Categorías"></div>
 
-    <section class="filtros" id="filtros" aria-label="Filtros"></section>
+    <div class="catalogo-layout">
+      <aside class="panel-filtros" id="panel" aria-label="Filtros">
+        <div class="panel-cabecera">
+          <h2>Filtros</h2>
+          <button type="button" class="enlace-limpiar js-limpiar" hidden>Limpiar</button>
+          <button type="button" class="cerrar-panel" id="cerrar-panel" aria-label="Cerrar filtros">✕</button>
+        </div>
+        <div id="filtros"></div>
+        <div class="panel-pie">
+          <button type="button" class="btn" id="aplicar">Ver productos</button>
+        </div>
+      </aside>
+      <div class="panel-fondo" id="fondo"></div>
 
-    <div class="barra-resultados">
-      <span id="resumen" aria-live="polite"></span>
-      <button type="button" class="enlace-limpiar" id="limpiar" hidden>Limpiar filtros</button>
+      <section class="catalogo-contenido">
+        <div class="barra-herramientas">
+          <button type="button" class="btn-filtros" id="abrir-panel" aria-controls="panel" aria-expanded="false">
+            Filtros <span class="contador" hidden>0</span>
+          </button>
+          <label class="orden">Ordenar
+            <select id="orden"></select>
+          </label>
+        </div>
+
+        <div class="activos" id="activos" hidden></div>
+
+        <div class="barra-resultados">
+          <span id="resumen" aria-live="polite"></span>
+          <button type="button" class="enlace-limpiar js-limpiar" hidden>Limpiar filtros</button>
+        </div>
+
+        <div class="novedades">
+          <div class="grid-productos" id="productos"></div>
+          <div class="estado-vacio" id="sin-resultados" hidden>
+            <h2>No encontramos productos con esos filtros</h2>
+            <p>Prueba con otra búsqueda o quita algún filtro.</p>
+            <button type="button" class="btn js-limpiar">Limpiar filtros</button>
+          </div>
+        </div>
+      </section>
     </div>
-
-    <section class="novedades">
-      <div class="grid-productos" id="productos"></div>
-      <div class="estado-vacio" id="sin-resultados" hidden>
-        <h2>No encontramos productos con esos filtros</h2>
-        <p>Prueba con otra búsqueda o quita algún filtro.</p>
-      </div>
-    </section>
 
     <nav class="navbar" aria-label="Navegación principal">
         <a href="index.html" class="nav-item">

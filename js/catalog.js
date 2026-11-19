@@ -28,11 +28,12 @@ class Product {
     return this.tallas.length > 0 || this.colores.length > 1;
   }
 
-  matches({ q = '', categoria = '', tallas = [], colores = [], rangos = [] }) {
+  matches({ q = '', categoria = '', tallas = [], colores = [], precioMin = null, precioMax = null }) {
     if (categoria && this.categoria !== categoria) return false;
     if (tallas.length && !tallas.some((t) => this.tallas.includes(t))) return false;
     if (colores.length && !colores.some((c) => this.colores.includes(c))) return false;
-    if (rangos.length && !rangos.some((r) => ProductRepository.inRange(this.precio, r))) return false;
+    if (precioMin !== null && this.precio < precioMin) return false;
+    if (precioMax !== null && this.precio > precioMax) return false;
     const term = Formatter.normalize(q);
     if (!term) return true;
     const haystack = Formatter.normalize(
@@ -50,10 +51,21 @@ class ProductRepository {
     { id: 'calzado', label: 'Calzados' },
   ]);
 
-  static PRICE_RANGES = Object.freeze([
-    { id: '0-50', label: 'Q0 - Q50', min: 0, max: 50 },
-    { id: '50-100', label: 'Q50 - Q100', min: 50, max: 100 },
-    { id: '100+', label: 'Q100 o más', min: 100, max: Infinity },
+  static PRICE_PRESETS = Object.freeze([
+    { label: 'Hasta Q50', min: null, max: 50 },
+    { label: 'Q50 a Q100', min: 50, max: 100 },
+    { label: 'Más de Q100', min: 100, max: null },
+  ]);
+
+  static COLOR_HEX = Object.freeze({
+    Negro: '#1a1a1a', Azul: '#1f4e9c', Rojo: '#c0392b', Verde: '#4a6b3a', Beige: '#d8c3a0', Crema: '#f3ead0',
+  });
+
+  static SORTS = Object.freeze([
+    { id: 'relevancia', label: 'Relevancia' },
+    { id: 'precio-asc', label: 'Precio: menor a mayor' },
+    { id: 'precio-desc', label: 'Precio: mayor a menor' },
+    { id: 'nombre', label: 'Nombre (A-Z)' },
   ]);
 
   static #SIZE_ORDER = ['XS', 'S', 'M', 'L', 'XL'];
@@ -72,11 +84,6 @@ class ProductRepository {
     return ProductRepository.CATEGORIES.some((c) => c.id === id);
   }
 
-  static inRange(price, rangeId) {
-    const range = ProductRepository.PRICE_RANGES.find((r) => r.id === rangeId);
-    return Boolean(range) && price >= range.min && price < range.max;
-  }
-
   all() {
     return [...this.#products];
   }
@@ -85,8 +92,19 @@ class ProductRepository {
     return this.#products.find((p) => p.id === Number(id)) ?? null;
   }
 
-  filter(criteria) {
-    return this.#products.filter((p) => p.matches(criteria));
+  filter(criteria, orden = 'relevancia') {
+    const list = this.#products.filter((p) => p.matches(criteria));
+    const by = {
+      'precio-asc': (a, b) => a.precio - b.precio,
+      'precio-desc': (a, b) => b.precio - a.precio,
+      nombre: (a, b) => a.nombre.localeCompare(b.nombre, 'es'),
+    }[orden];
+    return by ? list.sort(by) : list;
+  }
+
+  priceBounds() {
+    const prices = this.#products.map((p) => p.precio);
+    return { min: Math.min(...prices), max: Math.max(...prices) };
   }
 
   availableSizes() {
