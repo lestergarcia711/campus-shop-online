@@ -252,3 +252,228 @@ class BasePage {
     document.addEventListener('DOMContentLoaded', () => new PageClass().init());
   }
 }
+
+class SearchBox {
+  #app;
+  #input;
+  #host;
+  #handlers;
+  #list;
+  #rows = [];
+  #active = -1;
+  #uid = `sug-${Math.random().toString(36).slice(2, 7)}`;
+
+  constructor(app, input, { host, onSubmit, onCategory }) {
+    this.#app = app;
+    this.#input = input;
+    this.#host = host;
+    this.#handlers = { onSubmit, onCategory };
+  }
+
+  mount() {
+    this.#list = Dom.el('div', { class: 'sugerencias', id: this.#uid, role: 'listbox', hidden: true, 'aria-label': 'Sugerencias de búsqueda' });
+    this.#host.append(this.#list);
+    this.#input.setAttribute('role', 'combobox');
+    this.#input.setAttribute('aria-autocomplete', 'list');
+    this.#input.setAttribute('aria-controls', this.#uid);
+    this.#input.setAttribute('aria-expanded', 'false');
+    this.#input.setAttribute('autocomplete', 'off');
+
+    this.#input.addEventListener('focus', () => this.#open());
+    this.#input.addEventListener('input', () => this.#open());
+    this.#input.addEventListener('keydown', (e) => this.#onKey(e));
+    // mousedown evita que el input pierda el foco antes del clic en una sugerencia.
+    this.#list.addEventListener('mousedown', (e) => e.preventDefault());
+    document.addEventListener('mousedown', (e) => {
+      if (!this.#host.contains(e.target)) this.#close();
+    });
+    document.addEventListener('keydown', (e) => {
+      const typing = /^(input|textarea|select)$/i.test(document.activeElement?.tagName ?? '');
+      if (e.key === '/' && !typing && !e.ctrlKey && !e.metaKey) {
+        e.preventDefault();
+        this.#input.focus();
+      }
+    });
+  }
+
+  submit(term) {
+    const q = Formatter.clean(term);
+    this.#app.searches.add(q);
+    this.#close();
+    this.#handlers.onSubmit(q);
+  }
+
+  // ---------- teclado ----------
+
+  #onKey(e) {
+    const open = !this.#list.hidden;
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      if (!open) this.#open();
+      if (!this.#rows.length) return;
+      e.preventDefault();
+      const step = e.key === 'ArrowDown' ? 1 : -1;
+      this.#setActive((this.#active + step + this.#rows.length) % this.#rows.length);
+    } else if (e.key === 'Enter') {
+      if (open && this.#active >= 0) {
+        e.preventDefault();
+        this.#rows[this.#active].run();
+      } else if (!this.#input.form) {
+        e.preventDefault();
+        this.submit(this.#input.value);
+      }
+    } else if (e.key === 'Escape' && open) {
+      e.preventDefault();
+      this.#close();
+    }
+  }
+
+  #setActive(index) {
+    this.#active = index;
+    this.#rows.forEach((row, i) => {
+      const on = i === index;
+      row.node.setAttribute('aria-selected', String(on));
+      row.node.classList.toggle('activa', on);
+      if (on) {
+        row.node.scrollIntoView({ block: 'nearest' });
+        this.#input.setAttribute('aria-activedescendant', row.node.id);
+      }
+    });
+    if (index < 0) this.#input.removeAttribute('aria-activedescendant');
+  }
+
+  // ---------- contenido ----------
+
+  #open() {
+    this.#render();
+    this.#list.hidden = this.#list.childElementCount === 0;
+    this.#input.setAttribute('aria-expanded', String(!this.#list.hidden));
+  }
+
+  #close() {
+    this.#list.hidden = true;
+    this.#input.setAttribute('aria-expanded', 'false');
+    this.#setActive(-1);
+  }
+
+  #render() {
+    const q = Formatter.clean(this.#input.value);
+    this.#rows = [];
+    this.#active = -1;
+    const nodes = q ? this.#resultsView(q) : this.#idleView();
+    this.#list.replaceChildren(...nodes);
+  }
+
+  #row({ children, run, label }) {
+    const node = Dom.el('div', {
+      class: 'sugerencia',
+      role: 'option',
+      id: `${this.#uid}-${this.#rows.length}`,
+      'aria-selected': 'false',
+      'aria-label': label,
+      onclick: () => run(),
+    }, ...children);
+    this.#rows.push({ node, run });
+    return node;
+  }
+
+  #heading(text, action) {
+    return Dom.el('div', { class: 'sugerencias-titulo', role: 'presentation' },
+      Dom.el('span', { text }),
+      action ? Dom.el('button', { type: 'button', class: 'enlace-limpiar', text: action.label, onclick: action.run }) : null);
+  }
+
+  #categoryRow(category) {
+    return this.#row({
+      label: `Ver ${category.label}`,
+      run: () => { this.#close(); this.#handlers.onCategory(category.id); },
+      children: [Dom.el('span', { class: 'sug-icono', 'aria-hidden': 'true', text: '▦' }), Dom.el('span', { class: 'sug-texto' }, Dom.el('strong', { text: category.label }), Dom.el('small', { text: 'Ver toda la categoría' }))],
+    });
+  }
+
+  #idleView() {
+    const recent = this.#app.searches.list();
+    const nodes = [];
+    if (recent.length) {
+      nodes.push(this.#heading('Búsquedas recientes', { label: 'Borrar', run: () => { this.#app.searches.clear(); this.#open(); } }));
+      for (const term of recent) {
+        nodes.push(this.#row({
+          label: `Buscar ${term}`,
+          run: () => { this.#input.value = term; this.submit(term); },
+          children: [Dom.el('span', { class: 'sug-icono', 'aria-hidden': 'true', text: '🕒' }), Dom.el('span', { class: 'sug-texto', text: term })],
+        }));
+      }
+    }
+    nodes.push(this.#heading('Categorías'));
+    ProductRepository.CATEGORIES.forEach((c) => nodes.push(this.#categoryRow(c)));
+    return nodes;
+  }
+
+  #resultsView(q) {
+    const { products } = this.#app;
+    const { items, total, fuzzy } = products.search(q, 5);
+    const nodes = [];
+
+    if (items.length) {
+      nodes.push(this.#heading(fuzzy ? `Resultados similares a «${q}»` : 'Productos'));
+      for (const p of items) {
+        nodes.push(this.#row({
+          label: `${p.nombre}, ${Formatter.money(p.precio)}`,
+          run: () => { this.#app.searches.add(q); window.location.href = `detalles.html?id=${p.id}`; },
+          children: [
+            Dom.el('img', { src: p.imagen, alt: '', loading: 'lazy' }),
+            Dom.el('span', { class: 'sug-texto' }, Dom.el('strong', {}, ...this.#highlight(p.nombre, q)), Dom.el('small', { text: ProductRepository.categoryLabel(p.categoria) })),
+            Dom.el('span', { class: 'sug-precio', text: Formatter.money(p.precio) }),
+          ],
+        }));
+      }
+    } else {
+      nodes.push(Dom.el('p', { class: 'sugerencias-vacio', role: 'presentation', text: `No encontramos «${q}». Prueba con otra palabra o explora una categoría.` }));
+    }
+
+    const categories = products.matchingCategories(q);
+    if (categories.length) {
+      nodes.push(this.#heading('Categorías'));
+      categories.forEach((c) => nodes.push(this.#categoryRow(c)));
+    } else if (!items.length) {
+      nodes.push(this.#heading('Categorías'));
+      ProductRepository.CATEGORIES.forEach((c) => nodes.push(this.#categoryRow(c)));
+    }
+
+    if (items.length) {
+      const all = total === 1 ? 'Ver el resultado' : `Ver los ${total} resultados`;
+      nodes.push(this.#row({
+        label: `${all} de ${q}`,
+        run: () => this.submit(q),
+        children: [Dom.el('span', { class: 'sug-icono', 'aria-hidden': 'true', text: '🔍' }), Dom.el('span', { class: 'sug-texto' }, Dom.el('strong', { text: all }), Dom.el('small', { text: `para «${q}»` }))],
+      }));
+    }
+    return nodes;
+  }
+
+  // Resalta coincidencias sin distinguir tildes ni mayúsculas.
+  #highlight(text, query) {
+    const plain = [...text].map((ch) => Formatter.normalize(ch) || ch).join('');
+    const words = Formatter.normalize(query).split(' ').filter(Boolean);
+    const marked = new Array(text.length).fill(false);
+    for (const w of words) {
+      let from = 0;
+      for (let at = plain.indexOf(w, from); at !== -1; at = plain.indexOf(w, from)) {
+        for (let i = at; i < at + w.length; i += 1) marked[i] = true;
+        from = at + w.length;
+      }
+    }
+    const parts = [];
+    let buffer = '';
+    let state = false;
+    [...text].forEach((ch, i) => {
+      if (marked[i] !== state && buffer) {
+        parts.push(state ? Dom.el('mark', { text: buffer }) : buffer);
+        buffer = '';
+      }
+      state = marked[i];
+      buffer += ch;
+    });
+    if (buffer) parts.push(state ? Dom.el('mark', { text: buffer }) : buffer);
+    return parts;
+  }
+}

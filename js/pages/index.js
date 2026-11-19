@@ -5,10 +5,19 @@ class HomePage extends BasePage {
   }
 
   #bindSearch() {
-    Dom.$('#form-busqueda').addEventListener('submit', (event) => {
-      event.preventDefault();
-      const q = Formatter.clean(Dom.$('#busqueda').value);
+    const form = Dom.$('#form-busqueda');
+    const goTo = (q) => {
       window.location.href = q ? `catalogo.html?q=${encodeURIComponent(q)}` : 'catalogo.html';
+    };
+    const box = new SearchBox(this.app, Dom.$('#busqueda'), {
+      host: form,
+      onSubmit: goTo,
+      onCategory: (id) => { window.location.href = `catalogo.html?categoria=${id}`; },
+    });
+    box.mount();
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      box.submit(Dom.$('#busqueda').value);
     });
   }
 

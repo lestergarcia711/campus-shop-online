@@ -28,18 +28,45 @@ class Product {
     return this.tallas.length > 0 || this.colores.length > 1;
   }
 
-  matches({ q = '', categoria = '', tallas = [], colores = [], precioMin = null, precioMax = null }) {
+  matches({ categoria = '', tallas = [], colores = [], precioMin = null, precioMax = null }) {
     if (categoria && this.categoria !== categoria) return false;
     if (tallas.length && !tallas.some((t) => this.tallas.includes(t))) return false;
     if (colores.length && !colores.some((c) => this.colores.includes(c))) return false;
     if (precioMin !== null && this.precio < precioMin) return false;
     if (precioMax !== null && this.precio > precioMax) return false;
-    const term = Formatter.normalize(q);
-    if (!term) return true;
-    const haystack = Formatter.normalize(
-      [this.nombre, this.descripcion, ProductRepository.categoryLabel(this.categoria), ...this.colores].join(' ')
+    return true;
+  }
+
+  // 0 = no coincide. Con fuzzy se toleran errores de tipeo de una letra.
+  searchScore(query, fuzzy = false) {
+    const words = Formatter.normalize(query).split(' ').filter(Boolean);
+    if (!words.length) return 1;
+    const name = Formatter.normalize(this.nombre);
+    const nameWords = name.split(/\s+/);
+    const other = Formatter.normalize(
+      [this.descripcion, ProductRepository.categoryLabel(this.categoria), ...this.colores, ...this.caracteristicas].join(' ')
     );
-    return term.split(' ').every((word) => haystack.includes(word));
+    const tokens = [...nameWords, ...other.split(/\s+/)];
+    let total = 0;
+    for (const w of words) {
+      let score = 0;
+      if (name.startsWith(w)) score = 100;
+      else if (nameWords.some((n) => n.startsWith(w))) score = 80;
+      else if (name.includes(w)) score = 60;
+      else if (other.includes(w)) score = 20;
+      else if (fuzzy && w.length >= 4 && tokens.some((t) => Product.#withinOneEdit(w, t.slice(0, w.length + 1)) || Product.#withinOneEdit(w, t))) score = 10;
+      if (!score) return 0;
+      total += score;
+    }
+    return total;
+  }
+
+  static #withinOneEdit(a, b) {
+    if (Math.abs(a.length - b.length) > 1) return false;
+    let i = 0;
+    while (i < a.length && i < b.length && a[i] === b[i]) i += 1;
+    if (a.length === b.length) return a.slice(i + 1) === b.slice(i + 1);
+    return a.length > b.length ? a.slice(i + 1) === b.slice(i) : a.slice(i) === b.slice(i + 1);
   }
 }
 
@@ -93,13 +120,37 @@ class ProductRepository {
   }
 
   filter(criteria, orden = 'relevancia') {
-    const list = this.#products.filter((p) => p.matches(criteria));
+    return this.filterWithInfo(criteria, orden).items;
+  }
+
+  // `fuzzy` indica que no hubo coincidencias exactas y se muestran resultados parecidos.
+  filterWithInfo({ q = '', ...rest }, orden = 'relevancia') {
+    const base = this.#products.filter((p) => p.matches(rest));
+    const rank = (fuzzy) => base.map((p) => ({ p, s: p.searchScore(q, fuzzy) })).filter((x) => x.s > 0);
+    let ranked = rank(false);
+    let fuzzy = false;
+    if (!ranked.length && Formatter.clean(q)) {
+      ranked = rank(true);
+      fuzzy = ranked.length > 0;
+    }
     const by = {
-      'precio-asc': (a, b) => a.precio - b.precio,
-      'precio-desc': (a, b) => b.precio - a.precio,
-      nombre: (a, b) => a.nombre.localeCompare(b.nombre, 'es'),
-    }[orden];
-    return by ? list.sort(by) : list;
+      'precio-asc': (a, b) => a.p.precio - b.p.precio,
+      'precio-desc': (a, b) => b.p.precio - a.p.precio,
+      nombre: (a, b) => a.p.nombre.localeCompare(b.p.nombre, 'es'),
+    }[orden] ?? (Formatter.clean(q) ? (a, b) => b.s - a.s : null);
+    if (by) ranked.sort(by);
+    return { items: ranked.map((x) => x.p), fuzzy };
+  }
+
+  search(query, limit = 5) {
+    const { items, fuzzy } = this.filterWithInfo({ q: query });
+    return { items: items.slice(0, limit), total: items.length, fuzzy };
+  }
+
+  matchingCategories(query) {
+    const term = Formatter.normalize(query);
+    if (!term) return [];
+    return ProductRepository.CATEGORIES.filter((c) => Formatter.normalize(c.label).startsWith(term));
   }
 
   priceBounds() {

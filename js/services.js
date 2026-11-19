@@ -244,6 +244,38 @@ class OrderService {
   }
 }
 
+class SearchHistory {
+  static KEY = 'recent-searches';
+  static MAX = 5;
+
+  #storage;
+
+  constructor(storage) {
+    this.#storage = storage;
+  }
+
+  list() {
+    const stored = this.#storage.read(SearchHistory.KEY, []);
+    return Array.isArray(stored) ? stored.filter((t) => typeof t === 'string').slice(0, SearchHistory.MAX) : [];
+  }
+
+  add(term) {
+    const clean = Formatter.clean(term).slice(0, 80);
+    if (clean.length < 2) return;
+    const key = Formatter.normalize(clean);
+    const rest = this.list().filter((t) => Formatter.normalize(t) !== key);
+    this.#storage.write(SearchHistory.KEY, [clean, ...rest].slice(0, SearchHistory.MAX));
+  }
+
+  remove(term) {
+    this.#storage.write(SearchHistory.KEY, this.list().filter((t) => t !== term));
+  }
+
+  clear() {
+    this.#storage.write(SearchHistory.KEY, []);
+  }
+}
+
 const App = (() => {
   const storage = new StorageService();
   const products = new ProductRepository();
@@ -254,5 +286,6 @@ const App = (() => {
     compare: new CompareService(storage, products),
     orders: new OrderService(storage),
     profile: new ProfileService(storage),
+    searches: new SearchHistory(storage),
   });
 })();

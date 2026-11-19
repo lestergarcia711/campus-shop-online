@@ -132,6 +132,21 @@ class CatalogPage extends BasePage {
       this.#update();
     });
     if (this.#criteria.q) Dom.$('#buscador-desplegable').checked = true;
+    input.addEventListener('focus', () => { Dom.$('#buscador-desplegable').checked = true; });
+    new SearchBox(this.app, input, {
+      host: Dom.$('.buscador'),
+      onSubmit: (q) => {
+        this.#criteria.q = q;
+        input.value = q;
+        this.#update();
+      },
+      onCategory: (id) => {
+        this.#criteria.categoria = id;
+        this.#criteria.q = '';
+        input.value = '';
+        this.#update();
+      },
+    }).mount();
 
     Dom.$('#orden').addEventListener('change', (e) => {
       this.#orden = e.target.value;
@@ -214,7 +229,7 @@ class CatalogPage extends BasePage {
 
   #update({ keepPriceInputs = false } = {}) {
     const c = this.#criteria;
-    const results = this.app.products.filter(this.#asQuery(), this.#orden);
+    const { items: results, fuzzy } = this.app.products.filterWithInfo(this.#asQuery(), this.#orden);
 
     Dom.$$('#categorias .chip').forEach((chip) => {
       const active = chip.dataset.categoria === c.categoria;
@@ -233,7 +248,7 @@ class CatalogPage extends BasePage {
     }
 
     this.#paintActive();
-    this.#paintResults(results);
+    this.#paintResults(results, fuzzy);
     this.#syncUrl();
   }
 
@@ -269,13 +284,13 @@ class CatalogPage extends BasePage {
     Dom.$$('.js-limpiar').forEach((b) => { b.hidden = count === 0; });
   }
 
-  #paintResults(results) {
+  #paintResults(results, fuzzy = false) {
     const grid = Dom.$('#productos');
     grid.replaceChildren(...results.map((p) => this.#cards.render(p, { withActions: true })));
     grid.hidden = results.length === 0;
     Dom.$('#sin-resultados').hidden = results.length > 0;
     const label = results.length === 1 ? '1 producto' : `${results.length} productos`;
-    Dom.$('#resumen').textContent = label;
+    Dom.$('#resumen').textContent = fuzzy ? `${label} similares a «${this.#criteria.q}»` : label;
     Dom.$('#aplicar').textContent = results.length ? `Ver ${label}` : 'Sin resultados';
   }
 }
