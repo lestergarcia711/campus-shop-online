@@ -67,8 +67,22 @@ class CartService {
     this.#storage.write(CartService.KEY, lines);
   }
 
+  // Devuelve lo eliminado para poder deshacer la acción.
   remove(key) {
-    const lines = this.#raw().filter((l) => CartService.lineKey(l.productId, l.talla, l.color) !== key);
+    const lines = this.#raw();
+    const index = lines.findIndex((l) => CartService.lineKey(l.productId, l.talla, l.color) === key);
+    if (index === -1) return null;
+    const [entry] = lines.splice(index, 1);
+    this.#storage.write(CartService.KEY, lines);
+    return { entry, index };
+  }
+
+  restore({ entry, index }) {
+    const lines = this.#raw();
+    const key = CartService.lineKey(entry.productId, entry.talla, entry.color);
+    const existing = lines.find((l) => CartService.lineKey(l.productId, l.talla, l.color) === key);
+    if (existing) existing.cantidad = Math.min(CartService.MAX_QTY, existing.cantidad + entry.cantidad);
+    else lines.splice(Math.min(index, lines.length), 0, entry);
     this.#storage.write(CartService.KEY, lines);
   }
 

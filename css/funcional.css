@@ -415,3 +415,18 @@ body.sin-scroll { overflow: hidden; }
   .header .buscador .sugerencias { top: calc(100% + 6px); border-radius: 12px; min-width: 380px; }
   .header .carrito { order: 3; }
 }
+
+/* Botón eliminar del carrito */
+.card .eliminar {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  min-width: 44px; min-height: 44px; padding: 0 10px; top: 6px; right: 6px;
+  border: 1px solid transparent; border-radius: 10px; background: transparent; color: var(--gris);
+  font-size: 14px; cursor: pointer; transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.card .eliminar .icono { display: inline-flex; }
+.card .eliminar .texto { display: none; }
+.card .eliminar:hover, .card .eliminar:focus-visible { background: #fdecea; color: var(--error); border-color: #f3c4bf; }
+.card .eliminar:active { background: #f9d6d2; }
+.toast-accion { border: none; background: none; color: #8ce98f; font-weight: 700; font-size: 14px; cursor: pointer; padding: 6px 4px; min-height: 36px; }
+.toast-ok .toast-accion { color: #fff; text-decoration: underline; }
+@media (min-width: 600px) { .card .eliminar .texto { display: inline; } }

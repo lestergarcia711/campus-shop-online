@@ -8,15 +8,31 @@ class Toast {
     return region;
   }
 
-  static show(message, { type = 'info', action = null } = {}) {
+  static show(message, { type = 'info', action = null, duration = 4000 } = {}) {
     const toast = Dom.el(
       'div',
       { class: `toast toast-${type}` },
       Dom.el('span', { text: message }),
-      action ? Dom.el('a', { href: action.href, text: action.label }) : null
+      action?.href ? Dom.el('a', { href: action.href, text: action.label }) : null,
+      action?.onClick
+        ? Dom.el('button', { type: 'button', class: 'toast-accion', text: action.label, onclick: () => { action.onClick(); toast.remove(); } })
+        : null
     );
     Toast.#region().append(toast);
-    setTimeout(() => toast.remove(), 4000);
+    setTimeout(() => toast.remove(), duration);
+  }
+}
+
+class Icons {
+  // Marcado estático y confiable: nunca incluye texto del usuario.
+  static trash() {
+    const span = document.createElement('span');
+    span.className = 'icono';
+    span.setAttribute('aria-hidden', 'true');
+    span.innerHTML =
+      '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+      '<path d="M3 6h18"/><path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>';
+    return span;
   }
 }
 
@@ -28,7 +44,7 @@ class ConfirmDialog {
         { class: 'dialogo', 'aria-labelledby': 'dlg-title' },
         Dom.el(
           'form',
-          { method: 'dialog' },
+          {},
           Dom.el('h2', { id: 'dlg-title', text: title }),
           Dom.el('p', { text: message }),
           Dom.el(
@@ -39,9 +55,19 @@ class ConfirmDialog {
           )
         )
       );
-      dialog.addEventListener('close', () => {
-        resolve(dialog.returnValue === 'ok');
+      const finish = (accepted) => {
+        resolve(accepted);
+        if (dialog.open) dialog.close();
         dialog.remove();
+      };
+      // No dependemos del evento «close»: algunos navegadores embebidos no lo emiten.
+      dialog.querySelector('form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        finish(e.submitter?.value === 'ok');
+      });
+      dialog.addEventListener('cancel', (e) => {
+        e.preventDefault();
+        finish(false);
       });
       document.body.append(dialog);
       dialog.showModal();
@@ -120,7 +146,7 @@ class OptionsDialog {
       Dom.el(
         'div',
         { class: 'dialogo-acciones' },
-        Dom.el('button', { type: 'button', class: 'btn btn-sec', text: 'Cancelar', onclick: () => dialog.close() }),
+        Dom.el('button', { type: 'button', class: 'btn btn-sec', text: 'Cancelar', onclick: () => { dialog.close(); dialog.remove(); } }),
         Dom.el('button', {
           type: 'button',
           class: 'btn',
@@ -134,13 +160,13 @@ class OptionsDialog {
             }
             const result = cart.add(product.id, picker.selection);
             Toast.show(result.message, { type: result.ok ? 'ok' : 'error', action: result.ok ? { href: 'carrito.html', label: 'Ver carrito' } : null });
-            if (result.ok) dialog.close();
+            if (result.ok) { dialog.close(); dialog.remove(); }
             else error.textContent = result.message;
           },
         })
       )
     );
-    dialog.addEventListener('close', () => dialog.remove());
+    dialog.addEventListener('cancel', () => dialog.remove());
     document.body.append(dialog);
     dialog.showModal();
   }

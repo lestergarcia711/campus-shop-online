@@ -1,15 +1,24 @@
 class CartPage extends BasePage {
+  #removed = null;
+
   render() {
     const { cart } = this.app;
-    if (cart.isEmpty()) {
+    const empty = cart.isEmpty();
+    if (empty && !this.#removed) {
       window.location.replace('vacio.html');
       return;
     }
+    Dom.$('.compra').hidden = empty;
+    Dom.$('#resumen-carrito').hidden = empty;
+    if (empty) {
+      Dom.$('#lineas').replaceChildren(this.#emptyAfterRemoval());
+      return;
+    }
+    this.#removed = null;
     const lines = cart.lines();
     Dom.$('#lineas').replaceChildren(...lines.map((line) => this.#line(line)));
     Dom.$('#total').textContent = Formatter.money(cart.total());
-    Dom.$('#resumen-carrito').textContent =
-      cart.count() === 1 ? '1 artículo' : `${cart.count()} artículos`;
+    Dom.$('#resumen-carrito').textContent = cart.count() === 1 ? '1 artículo' : `${cart.count()} artículos`;
   }
 
   refresh() {
@@ -53,20 +62,53 @@ class CartPage extends BasePage {
         type: 'button',
         class: 'eliminar',
         'aria-label': `Eliminar ${product.nombre}`,
-        text: '🗑️',
+        title: 'Eliminar del carrito',
         onclick: () => this.#confirmRemove(line),
-      })
+      }, Icons.trash(), Dom.el('span', { class: 'texto', text: 'Eliminar' }))
     );
   }
 
   async #confirmRemove(line) {
+    const extra = [line.talla && `talla ${line.talla}`, line.color].filter(Boolean).join(', ');
     const ok = await ConfirmDialog.ask({
       title: '¿Quitar del carrito?',
-      message: `${line.product.nombre} saldrá de tu carrito.`,
+      message: `${line.cantidad > 1 ? `${line.cantidad} × ` : ''}${line.product.nombre}${extra ? ` (${extra})` : ''} saldrá de tu carrito.`,
       confirmText: 'Quitar',
       danger: true,
     });
-    if (ok) this.app.cart.remove(line.key);
+    if (!ok) return;
+    // Marca previa: el evento de almacenamiento re-renderiza antes de que remove() devuelva.
+    this.#removed = { pending: true };
+    const removed = this.app.cart.remove(line.key);
+    if (!removed) {
+      this.#removed = null;
+      return;
+    }
+    this.#removed = removed;
+    Toast.show(`${line.product.nombre} se quitó del carrito.`, {
+      duration: 7000,
+      action: { label: 'Deshacer', onClick: () => this.#undo(removed) },
+    });
+  }
+
+  // Cada aviso deshace su propia eliminación; `done` evita restaurar dos veces.
+  #undo(removed = this.#removed) {
+    if (!removed || removed.pending || removed.done) return;
+    removed.done = true;
+    this.app.cart.restore(removed);
+    if (this.#removed === removed) this.#removed = null;
+  }
+
+  #emptyAfterRemoval() {
+    return Dom.el(
+      'div',
+      { class: 'estado-vacio' },
+      Dom.el('h2', { text: 'Tu carrito quedó vacío' }),
+      Dom.el('p', { text: 'Si fue sin querer, puedes recuperar el artículo.' }),
+      Dom.el('button', { type: 'button', class: 'btn', text: 'Deshacer', onclick: () => this.#undo() }),
+      ' ',
+      Dom.el('a', { class: 'btn btn-sec', href: 'catalogo.html', text: 'Ver catálogo' })
+    );
   }
 }
 
