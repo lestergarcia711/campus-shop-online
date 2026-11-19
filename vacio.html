@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Tu carrito | CampusShop</title>
     <style>
 body{
     background:rgb(234, 239, 238);
@@ -75,16 +75,17 @@ body{
 }
     
     </style>
+    <link rel="stylesheet" href="css/funcional.css">
 </head>
 <body>
     <header class="header">
-        <a href="index.html" class=" icon volver">🔙</a>
+        <a href="catalogo.html" class="icon volver" aria-label="Volver al catálogo">🔙</a>
         <h1 class="titulo">Tu carrito</h1>
     </header>
     <main class="form-style">
         <div class="carrito-vacio">
             <img src="img/carrito.png" class="img" alt=" carrito">
-            <p class="info">Parece que  aun no has añadido ningun producto</p>
+            <p class="info">Tu carrito está vacío. Agrega algo desde el catálogo.</p>
         </div>
 
     </main>
@@ -93,5 +94,10 @@ body{
     </div>
 
     
+    <script src="js/core.js"></script>
+    <script src="js/catalog.js"></script>
+    <script src="js/services.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/pages/vacio.js"></script>
 </body>
 </html>

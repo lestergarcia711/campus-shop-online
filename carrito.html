@@ -1,47 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>carrito</title>
+    <title>Mi carrito | CampusShop</title>
     <link rel="stylesheet" href="css/carrito.css">
+    <link rel="stylesheet" href="css/funcional.css">
 </head>
 <body>
     <header class="header">
 
-        <a href="detalles.html" class=" icon volver">🔙</a>
+        <a href="catalogo.html" class="icon volver" aria-label="Seguir comprando">🔙</a>
         <h1 class="titulo">Mi carrito</h1>
-      
+
     </header>
+
+    <noscript><p>El carrito necesita JavaScript.</p></noscript>
+
+    <p class="resumen-carrito" id="resumen-carrito"></p>
+
     <main class="eleccion">
-        <div class="card">
-            <img src="img/camisa-polo.jpeg" alt="Camisa polo">
-            <h3>Camisa Polo</h3>
-            <p> cod#234</cod></p>
-            <p class="precio">Q45.00</p>
-            <button class="eliminar">🗑️</button>
-            <div class="add">
-                <button>-</button><button>1</button><button>+</button>
-            </div>
+        <div id="lineas" class="eleccion">
+            <p class="estado">Cargando tu carrito…</p>
         </div>
-        
-         <div class="card">
-           <img src="img/jacket.jpeg" alt="Chaqueta">
-             <h3>Chaqueta de Cuero</h3>
-             <p> cod#123</cod></p>
-             <p class="precio">Q120.00</p>
-             <button class="eliminar">🗑️</button>
-             <div class="add">
-                <button>-</button><button>1</button><button>+</button>
-            </div>
 
-         </div>
-         <section class="compra">
-            <h2>Total</h2><p class="precio">Q165.00</p>
-            <button class="checkout"><a href="Checkout.html"> Finalizar Compra</a></button>
-         </section>
-
+        <section class="compra">
+            <h2>Total</h2>
+            <p class="precio" id="total">Q0.00</p>
+            <a class="checkout" href="Checkout.html">Finalizar compra</a>
+        </section>
     </main>
-    
+
+    <script src="js/core.js"></script>
+    <script src="js/catalog.js"></script>
+    <script src="js/services.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/pages/carrito.js"></script>
 </body>
 </html>

@@ -1,40 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>checkout</title>
-    <link rel="stylesheet" href=" css/checkout.css">
+    <title>Checkout | CampusShop</title>
+    <link rel="stylesheet" href="css/checkout.css">
+    <link rel="stylesheet" href="css/funcional.css">
 </head>
 <body>
     <header class="header">
-        <a href="carrito.html" class=" icon volver">🔙</a>
+        <a href="carrito.html" class="icon volver" aria-label="Volver al carrito">🔙</a>
         <h1 class="titulo">Checkout</h1>
     </header>
-    <main class="registro">
-    <h2>Envio</h2>
-    <div class="form-style">
-        <label for="nombre">Nombre completo</label>
-        <input type="text" id="nombre"  placeholder="Ingrese su nombre">
-        
-        <label for="direccion"> Dirección</label>
-        <input type="text"  id="direccion" placeholder="Ingrese su direccion">
 
-        <label for="ciudad"> Ciudad</label>
-        <input type="text" id="ciudad" placeholder="Ciudad">
-    </div>
-    <section class="pago">
-        <h2>Metodo de pago</h2>
-        <div class="cards">
-            <div class="card">Efectivo</div>
-            <div class="card">Mastercard</div>
-            <div class="card">PayPal</div>
+    <noscript><p>El checkout necesita JavaScript.</p></noscript>
+
+    <form id="form-checkout" novalidate>
+    <main class="registro">
+        <h2>Tu pedido</h2>
+        <ul class="resumen-pedido" id="resumen-lineas"></ul>
+        <div class="resumen-total"><span>Total</span><span id="pago-total">Q0.00</span></div>
+
+        <h2>Envío</h2>
+        <div class="form-style">
+            <label for="nombre">Nombre completo</label>
+            <input type="text" id="nombre" name="nombre" autocomplete="name" maxlength="80" placeholder="Ingrese su nombre" aria-describedby="error-nombre">
+            <p class="error-campo" id="error-nombre" role="alert"></p>
+
+            <label for="direccion">Dirección</label>
+            <input type="text" id="direccion" name="direccion" autocomplete="street-address" maxlength="160" placeholder="Ingrese su dirección" aria-describedby="error-direccion">
+            <p class="error-campo" id="error-direccion" role="alert"></p>
+
+            <label for="ciudad">Ciudad</label>
+            <input type="text" id="ciudad" name="ciudad" autocomplete="address-level2" maxlength="60" placeholder="Ciudad" aria-describedby="error-ciudad">
+            <p class="error-campo" id="error-ciudad" role="alert"></p>
         </div>
-    </section>
+
+        <section class="pago">
+            <h2>Método de pago</h2>
+            <div class="metodos" id="metodos" role="radiogroup" aria-label="Método de pago"></div>
+            <p class="error-campo" id="error-pago" role="alert"></p>
+        </section>
     </main>
     <section class="style">
-        <button class="pay">Cantidad a Pagar</button>
-        
+        <button type="submit" class="pay" id="btn-pagar">Pagar</button>
     </section>
+    </form>
+
+    <script src="js/core.js"></script>
+    <script src="js/catalog.js"></script>
+    <script src="js/services.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/pages/checkout.js"></script>
 </body>
 </html>
