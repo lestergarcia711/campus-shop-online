@@ -3,123 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Venta-de-ropa</title>
+    <title>CampusShop</title>
 
     <link rel="stylesheet" href="css/base.css">
-    <link rel="stylesheet" href="css/layout.css">
     <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/funcional.css">
 </head>
 <body>
-         
+
   <header class="header">
 
     <nav class="menu">
       <div class="grid-categorias">
-  
-        <!-- botón abrir -->
-        <label for="menu-desplegable" class="men">☰</label>
+
+        <label for="menu-desplegable" class="men" aria-label="Abrir menú">☰</label>
         <input type="checkbox" id="menu-desplegable">
-  
-        <!-- menú -->
+
         <div class="lista">
-  
-          <!-- botón cerrar -->
-          <label for="menu-desplegable" class="cerrar">➡️</label>
-  
+
+          <label for="menu-desplegable" class="cerrar" aria-label="Cerrar menú">➡️</label>
+
           <h2>CampusShop</h2><hr>
           <a href="catalogo.html">Catálogo</a><hr>
 
-          <a href="catalogo.html">🧥  Abrigos</a>
-          <a href="catalogo.html">👕  amisetas</a>
-          <a href="catalogo.html">👖  Pantalones</a>
-          <a href="catalogo.html">👟  Calzados</a><hr>
+          <a href="catalogo.html?categoria=abrigos">🧥  Abrigos</a>
+          <a href="catalogo.html?categoria=camisetas">👕  Camisetas</a>
+          <a href="catalogo.html?categoria=pantalones">👖  Pantalones</a>
+          <a href="catalogo.html?categoria=calzado">👟  Calzados</a><hr>
 
-          <a href="catalogo.html"></a>
-          <a href="vacio.html" class="carrito">🛒</a><hr>
+          <a href="comparacion.html" data-badge="compare" data-label="Comparación">⚖️  Comparación</a>
+          <a href="carrito.html" data-badge="cart">🛒  Mi carrito</a><hr>
           <a href="Perfil.html">Perfil</a><hr>
           <a href="Historial.html">Historial</a><hr>
 
-
-  
         </div>
-  
+
       </div>
     </nav>
-  
+
     <h1>CampusShop</h1>
-    <a href="vacio.html" class="carrito">🛒</a>
-  
+    <a href="carrito.html" class="carrito" aria-label="Carrito">🛒</a>
+
   </header>
 
-      <section class="buscador">
-        <span class="icon">🔍<input type="text" placeholder="Buscar productos,marcas...."></span><!--etiqueta para agrupar o aplicar estilos (inline)-->
-        <!--input agrega informacion y el placeholder es text guia nadamas-->
-      </section>
+  <noscript><p>CampusShop necesita JavaScript para mostrar los productos y el carrito.</p></noscript>
 
-      <section class="categorias">
-        <h2>Categorías Populares</h2>
-      
-        <div class="grid-categorias">
-          <a href="catalogo.html" class="categoria">Abrigos</a>
-          <a href="catalogo.html" class="categoria">Camisetas</a>
-          <a href="catalogo.html" class="categoria">Pantalones</a>
-        </div>
-      </section>
+  <form class="buscador" id="form-busqueda" role="search">
+    <span class="icon">🔍<input type="search" id="busqueda" name="q" maxlength="80" placeholder="Buscar productos..." aria-label="Buscar productos"></span>
+  </form>
 
-      <section class="novedades">
-        <h2>Lo nuevo que amaras</h2>
-      
-        <div class="grid-productos">
+  <section class="categorias">
+    <h2>Categorías Populares</h2>
 
-            <div class="card">
-              <img src="img/camisa-polo.jpeg" alt="Camisa polo">
-              <h3>Camisa Polo</h3>
-              <p>Q45.00</p>
-            </div>
-        
-            <div class="card">
-              <img src="img/jacket.jpeg" alt="Chaqueta">
-                <h3>Chaqueta de Cuero</h3>
-                <p>Q120.00</p>
-            </div>
-            <div class="card">
-                <img src="img/jeans.jpeg" alt="jeans">
-                <h3>Jeans Clásicos</h3>
-                <p>Q80.00</p>
-            </div>
-            <div class="card">
-                <img src="img/polo.jpeg" alt="polo">
-                <h3>Polo Básico</h3>
-                <p>Q35.00</p>
-            </div>
-            <div class="card">
-                <img src="img/shorts.jpeg" alt="shorts">
-                <h3>Shorts Deportivos</h3>
-                <p>Q25.00</p>
-            </div>
-            <div class="card">
-                <img src="img/t-shirt.jpeg" alt="t-shirt">
-                <h3>T-shirt Estampada</h3>
-                <p>Q30.00</p>
-            </div>
-            <div class="card">
-                <img src="img/Zapato clasico.jpeg" alt="clasico">
-                <h3>Zapato Clásico</h3>
-                <p>Q150.00</p>
-            </div>
-            <div class="card">
-                <img src="img/tennis.jpeg" alt="tennis">
-                <h3>Tennis Deportivos</h3>
-                <p>Q90.00</p>
-            </div>
+    <div class="grid-categorias">
+      <a href="catalogo.html?categoria=abrigos" class="categoria">Abrigos</a>
+      <a href="catalogo.html?categoria=camisetas" class="categoria">Camisetas</a>
+      <a href="catalogo.html?categoria=pantalones" class="categoria">Pantalones</a>
+      <a href="catalogo.html?categoria=calzado" class="categoria">Calzados</a>
+    </div>
+  </section>
 
+  <section class="novedades">
+    <h2>Lo nuevo que amarás</h2>
+    <div class="grid-productos" id="novedades">
+      <p class="estado">Cargando productos…</p>
+    </div>
+  </section>
 
-         
-        </div>
-
-      </section>
-
-
-    
+  <script src="js/core.js"></script>
+  <script src="js/catalog.js"></script>
+  <script src="js/services.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/pages/index.js"></script>
 </body>
 </html>

@@ -3,142 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>catalogo</title>
+    <title>Catálogo | CampusShop</title>
     <link rel="stylesheet" href="css/componentes.css">
+    <link rel="stylesheet" href="css/funcional.css">
 </head>
 
 <body>
     <header class="header">
 
-        <!-- Checkbox oculto -->
         <input type="checkbox" id="buscador-desplegable">
-      
-        <!-- Icono buscar -->
-        <label for="buscador-desplegable" class=" icon buscar">🔍</label>
-      
-        <!-- Título -->
+
+        <label for="buscador-desplegable" class="icon buscar" aria-label="Buscar">🔍</label>
+
         <h1 class="titulo">Catálogo</h1>
-      
-        <!-- Carrito -->
-        <a href="carrito.html" class=" icon carrito">🛒</a>
-      
-        <!-- Buscador overlay -->
-        <div class="buscador">
-          <input type="text" placeholder="Buscar..." />
-          <label for="buscador-desplegable" class="icon cerrar">✖</label>
+
+        <a href="carrito.html" class="icon carrito" aria-label="Carrito">🛒</a>
+
+        <div class="buscador" role="search">
+          <input type="search" id="busqueda" maxlength="80" placeholder="Buscar..." aria-label="Buscar productos">
+          <label for="buscador-desplegable" class="icon cerrar" aria-label="Cerrar búsqueda">✖</label>
         </div>
-      
+
     </header>
 
-    <section class="filtros">
+    <noscript><p>El catálogo necesita JavaScript para mostrar los productos.</p></noscript>
 
-    <details class="lista">
-        <summary>Talla</summary>
-        <ul>
-        <li>S</li>
-        <li>M</li>
-        <li>L</li>
-        </ul>
-    </details>
+    <div class="categorias-chips" id="categorias" role="group" aria-label="Categorías"></div>
 
-    <details class="lista">
-        <summary>Color</summary>
-        <ul>
-        <li>Rojo</li>
-        <li>Negro</li>
-        <li>Azul</li>
-        </ul>
-    </details>
+    <section class="filtros" id="filtros" aria-label="Filtros"></section>
 
-    <details class="lista">
-        <summary >Precio</summary>
-        <ul>
-        <li>Q0 - Q50</li>
-        <li>Q50 - Q100</li>
-        <li>Q100+</li>
-        </ul>
-    </details>
+    <div class="barra-resultados">
+      <span id="resumen" aria-live="polite"></span>
+      <button type="button" class="enlace-limpiar" id="limpiar" hidden>Limpiar filtros</button>
+    </div>
 
-</section>
+    <section class="novedades">
+      <div class="grid-productos" id="productos"></div>
+      <div class="estado-vacio" id="sin-resultados" hidden>
+        <h2>No encontramos productos con esos filtros</h2>
+        <p>Prueba con otra búsqueda o quita algún filtro.</p>
+      </div>
+    </section>
 
-      <section class="novedades">
-        <div class="grid-productos">
-
-            <div class="card">
-              <img src="img/camisa-polo.jpeg" alt="Camisa polo">
-              <h3>Camisa Polo</h3>
-              <p>Q45.00</p>
-              <button class="cart">🛒</button>
-              <a href="detalles.html" class="revisar">Detalles</a>
-            </div>
-        
-            <div class="card">
-              <img src="img/jacket.jpeg" alt="Chaqueta">
-                <h3>Chaqueta de Cuero</h3>
-                <p>Q120.00</p>
-                <button class="cart">🛒</button>
-                <a href="detalles.html" class="revisar">Detalles</a>
-            </div>
-
-            <div class="card">
-                <img src="img/jeans.jpeg" alt="jeans">
-                <h3>Jeans Clásicos</h3>
-                <p>Q80.00</p>
-                <button class="cart">🛒</button>
-                <a href="detalles.html" class="revisar">Detalles</a>
-            </div>
-
-            <div class="card">
-                <img src="img/polo.jpeg" alt="polo">
-                <h3>Polo Básico</h3>
-                <p>Q35.00</p>
-                <button class="cart">🛒</button>
-                <a href="detalles.html" class="revisar">Detalles</a>
-            </div>
-
-            <div class="card">
-                <img src="img/shorts.jpeg" alt="shorts">
-                <h3>Shorts Deportivos</h3>
-                <p>Q25.00</p>
-                <button class="cart">🛒</button>
-                <a href="detalles.html" class="revisar">Detalles</a>
-            </div>
-
-            <div class="card">
-                <img src="img/t-shirt.jpeg" alt="t-shirt">
-                <h3>T-shirt Estampada</h3>
-                <p>Q30.00</p>
-                <button class="cart">🛒</button>
-                <a href="detalles.html" class="revisar">Detalles</a>
-            </div>
-
-            <div class="card">
-                <img src="img/Zapato clasico.jpeg" alt="clasico">
-                <h3>Zapato Clásico</h3>
-                <p>Q150.00</p>
-                <button class="cart">🛒</button>
-                <a href="detalles.html" class="revisar">Detalles</a>
-            </div>
-
-            <div class="card">
-                <img src="img/tennis.jpeg" alt="tennis">
-                <h3>Tennis Deportivos</h3>
-                <p>Q90.00</p>
-                <button class="cart">🛒</button>
-                <a href="detalles.html" class="revisar">Detalles</a>
-            </div>
-        </div>
-
-      </section>
-      <nav class="navbar">
-        <a href="index.html" class="nav-item ">
+    <nav class="navbar" aria-label="Navegación principal">
+        <a href="index.html" class="nav-item">
             <span>🏠</span>
             <p>Inicio</p>
         </a>
-        <a href="comparacion.html" class="nav-item">
-            <span>!=</span>
-            <p>Comparacion de productos</p>
-      </nav>
-    
+        <a href="comparacion.html" class="nav-item" data-badge="compare" data-label="Comparación">
+            <span>⚖️</span>
+            <p>Comparar</p>
+        </a>
+        <a href="carrito.html" class="nav-item" data-badge="cart">
+            <span>🛒</span>
+            <p>Carrito</p>
+        </a>
+        <a href="Perfil.html" class="nav-item">
+            <span>👤</span>
+            <p>Perfil</p>
+        </a>
+    </nav>
+
+    <script src="js/core.js"></script>
+    <script src="js/catalog.js"></script>
+    <script src="js/services.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/pages/catalogo.js"></script>
 </body>
 </html>
