@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>perfil</title>
+    <title>Perfil | CampusShop</title>
     <style>
         body {
     margin: 0;
@@ -82,7 +82,7 @@ header {
     position: fixed;
     bottom: 0;
     width: 100%;
-     background:  #046366;
+     background: #046366;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -108,32 +108,56 @@ header {
     font-weight: bold;
 }
     </style>
+    <link rel="stylesheet" href="css/funcional.css">
 </head>
-<body>
+<body class="perfil">
     <header class="header">
         <h1>Perfil</h1>
     </header>
     <main class="container">
-    <div class="card">
+    <noscript><p>El perfil necesita JavaScript.</p></noscript>
+    <div class="card perfil-card">
 
         <div class="profile">
-            <div class="avatar"></div>
-            <h2>Josue Villagran</h2>
-            <p>josue.villagran@gmail.com</p>
+            <div class="avatar" id="avatar" aria-hidden="true">?</div>
+            <h2 id="perfil-nombre">Tu perfil</h2>
+            <p id="perfil-email"></p>
         </div>
 
-        <div class="options">
-            <div class="option">Mis Pedidos</div>
-            <div class="option">Direcciones</div>
-            <div class="option">Configuración</div>
-            <div class="option logout">Cerrar Sesión</div>
+        <form class="form-perfil" id="form-perfil" novalidate>
+            <label for="nombre">Nombre completo</label>
+            <input type="text" id="nombre" autocomplete="name" maxlength="80">
+            <p class="error-campo" id="error-nombre" role="alert"></p>
+
+            <label for="email">Correo</label>
+            <input type="email" id="email" autocomplete="email" maxlength="120">
+            <p class="error-campo" id="error-email" role="alert"></p>
+
+            <label for="telefono">Teléfono</label>
+            <input type="tel" id="telefono" autocomplete="tel" maxlength="20">
+            <p class="error-campo" id="error-telefono" role="alert"></p>
+
+            <label for="direccion">Dirección de envío</label>
+            <input type="text" id="direccion" autocomplete="street-address" maxlength="160">
+            <p class="error-campo" id="error-direccion" role="alert"></p>
+
+            <label for="ciudad">Ciudad</label>
+            <input type="text" id="ciudad" autocomplete="address-level2" maxlength="60">
+            <p class="error-campo" id="error-ciudad" role="alert"></p>
+
+            <button type="submit" class="btn">Guardar cambios</button>
+        </form>
+
+        <div class="perfil-enlaces">
+            <a href="Historial.html">Mis pedidos</a>
+            <a href="comparacion.html">Comparación</a>
+            <button type="button" class="peligro" id="borrar-datos">Borrar mis datos</button>
         </div>
 
     </div>
 </main>
-<nav>
-    <nav class="navbar">
-    <a href="index.html" class="nav-item ">
+<nav class="navbar" aria-label="Navegación principal">
+    <a href="index.html" class="nav-item">
         <span>🏠</span>
         <p>Inicio</p>
     </a>
@@ -141,11 +165,11 @@ header {
         <span>📦</span>
         <p>Catálogo</p>
     </a>
-    <a href="carrito.html" class="nav-item">
+    <a href="carrito.html" class="nav-item" data-badge="cart">
         <span>🛒</span>
         <p>Carrito</p>
     </a>
-    <a href="perfil.html" class="nav-item active">
+    <a href="Perfil.html" class="nav-item active">
         <span>👤</span>
         <p>Perfil</p>
     </a>
@@ -154,7 +178,11 @@ header {
         <p>Historial</p>
     </a>
 </nav>
-</nav>
     
+    <script src="js/core.js"></script>
+    <script src="js/catalog.js"></script>
+    <script src="js/services.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/pages/perfil.js"></script>
 </body>
 </html>

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Historial</title>
+    <title>Historial | CampusShop</title>
     <STYle>
 body{
     margin: 0;
@@ -93,7 +93,7 @@ button {
     position: fixed;
     bottom: 0;
     width: 100%;
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: #046366;
     color: white;
     display: flex;
     justify-content: space-around;
@@ -120,60 +120,25 @@ button {
     font-weight: bold;
 }
     </STYle>
+    <link rel="stylesheet" href="css/funcional.css">
 </head>
 <body>
     <header class="header">
         <h1 class="titulo">Historial de Compras</h1>
     </header>
     <main class="container">
+        <noscript><p>El historial necesita JavaScript.</p></noscript>
         <div class="card">
-
-
-    <!-- Pedido 1 -->
-    <div class="order">
-        <div class="order-info">
-            <h3>Orden COD12345</h3>
-            <p>15 Oct, 2023</p>
-            <span class="status entregado">Entregado</span>
+            <div id="pedidos" hidden></div>
+            <div class="estado-vacio" id="vacio-historial">
+                <h2>Todavía no tienes pedidos</h2>
+                <p>Cuando completes una compra aparecerá aquí.</p>
+                <a class="btn" href="catalogo.html">Ir al catálogo</a>
+            </div>
         </div>
-        <div class="order-right">
-            <p class="price">Q125.50</p>
-            <button>Ver detalle</button>
-        </div>
-    </div>
-
-    <!-- Pedido 2 -->
-    <div class="order">
-        <div class="order-info">
-            <h3>Orden COD12344</h3>
-            <p>12 Oct, 2023</p>
-            <span class="status camino">En camino</span>
-        </div>
-        <div class="order-right">
-            <p class="price">Q89.99</p>
-            <button>Ver detalle</button>
-        </div>
-    </div>
-
-    <!-- Pedido 3 -->
-    <div class="order">
-        <div class="order-info">
-            <h3>Orden COD12343</h3>
-            <p>05 Oct, 2023</p>
-            <span class="status cancelado">Cancelado</span>
-        </div>
-        <div class="order-right">
-            <p class="price">Q210.00</p>
-            <button>Ver detalle</button>
-        </div>
-    </div>
-
-</div>
-
     </main>
-<nav>
-    <nav class="navbar">
-    <a href="index.html" class="nav-item ">
+<nav class="navbar" aria-label="Navegación principal">
+    <a href="index.html" class="nav-item">
         <span>🏠</span>
         <p>Inicio</p>
     </a>
@@ -181,20 +146,24 @@ button {
         <span>📦</span>
         <p>Catálogo</p>
     </a>
-    <a href="carrito.html" class="nav-item">
+    <a href="carrito.html" class="nav-item" data-badge="cart">
         <span>🛒</span>
         <p>Carrito</p>
     </a>
-    <a href="perfil.html" class=" nav-item ">
+    <a href="Perfil.html" class="nav-item">
         <span>👤</span>
-        <p>perfil</p>
+        <p>Perfil</p>
     </a>
-     <a href="Historial.html" class=" nav-item active">
+    <a href="Historial.html" class="nav-item active">
         <span>🕒</span>
         <p>Historial</p>
     </a>
 </nav>
-</nav>
     
+    <script src="js/core.js"></script>
+    <script src="js/catalog.js"></script>
+    <script src="js/services.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/pages/historial.js"></script>
 </body>
 </html>
