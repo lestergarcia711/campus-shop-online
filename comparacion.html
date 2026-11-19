@@ -3,63 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Productos</title>
+    <title>Comparar productos | CampusShop</title>
     <link rel="stylesheet" href="css/comparacion.css">
+    <link rel="stylesheet" href="css/funcional.css">
 </head>
 <body>
-    <header class ="header">
-        <a href="catalogo.html" class="icon.volver">🔙</a>
-        <h1 class="titulo">Comparando-Productos</h1>
+    <header class="header">
+        <a href="catalogo.html" class="icon volver" aria-label="Volver al catálogo">🔙</a>
+        <h1 class="titulo">Comparar productos</h1>
     </header>
+
+    <noscript><p>La comparación necesita JavaScript.</p></noscript>
+
     <main class="main">
-        <div class="comparacion">
-            
-            <div class="card">
-                    <img src="img/camisa-polo.jpeg" alt="Camisa polo">
-                    <h3>Camisa Polo</h3>
-                    <p>Q45.00</p>
-                <p>Lorem ipsum dolor, sit amet consectetur </p>
-                <ul>
-                    <li>Característica 1</li>
-                    <li>Característica 2</li>
-                    <li>Característica 3</li>
-                </ul>
-            </div>
-            <div class="card">
-                <img src="img/polo.jpeg" alt="polo">
-                <h3>Polo Básico</h3>
-                <p>Q35.00</p>
-                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit.</p>
-                <ul>
-                    <li>Característica A</li>
-                    <li>Característica B</li>
-                    <li>Característica C</li>
-                </ul>
-            </div>
-            <div class="card">
-                <img src="img/Zapato clasico.jpeg" alt="clasico">
-                <h3>Zapato Clásico</h3>
-                <p>Q150.00</p>
-                <p>Lorem ipsum dolor, sit amet consectetur </p>
-                <ul>
-                    <li>Característica 1</li>
-                    <li>Característica 2</li>
-                    <li>Característica 3</li>
-                </ul>
-            </div>
-            <div class="card">
-                <img src="img/tennis.jpeg" alt="tennis">
-                <h3>Tennis Deportivos</h3>
-                <p>Q90.00</p>
-                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit.</p>
-                <ul>
-                    <li>Característica A</li>
-                    <li>Característica B</li>
-                    <li>Característica C</li>
-                </ul>
-            </div>
+        <div class="comparar-barra">
+            <span id="pista" hidden>Agrega al menos un producto más desde el catálogo para compararlos.</span>
+            <button type="button" class="enlace-limpiar" id="vaciar" hidden>Vaciar lista</button>
+        </div>
+
+        <div class="comparacion" id="comparacion" hidden></div>
+
+        <div class="estado-vacio" id="sin-comparacion">
+            <h2>Aún no elegiste productos</h2>
+            <p>En el catálogo toca «Comparar» en los productos que te interesen (hasta 4).</p>
+            <a class="btn" href="catalogo.html">Ir al catálogo</a>
         </div>
     </main>
-    
+
+    <script src="js/core.js"></script>
+    <script src="js/catalog.js"></script>
+    <script src="js/services.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/pages/comparacion.js"></script>
 </body>
 </html>
